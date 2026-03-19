@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Calculator Operations</title>
+</head>
+<body>
+
+  <h1>Basic Calculator</h1>
+
+  <p>Enter two numbers:</p>
+
+  <p> Number 1: </p><input type="number" id="num1">
+  <p> Number 2: </p><input type="number" id="num2">
+
+  <br><br>
+
+  <h3>Operations</h3>
+  <!-- Get API based operations -->
+  <button id="addBtn">Add</button>
+  <button id="subtractBtn">Subtract</button>
+  <!-- POST API based operations -->
+  <button id="multiplyBtn">Multiply</button>
+  <button id="divideBtn">Divide</button>
+
+  <h2 id="result"></h2>
+
+  <hr>
+
+  <script>
+
+    // Function to get values from input fields
+    function getValues() {
+      const a = document.getElementById("num1").value;
+      const b = document.getElementById("num2").value;
+
+      if (a === "" || b === "") {
+        document.getElementById("result").innerText = "Please enter both values";
+        return null;
+      }
+
+      return { a, b };
+    }
+
+    // ADD Operation
+    document.getElementById("addBtn").addEventListener("click", function () {
+      const values = getValues();
+      if (!values) return;
+
+      // Using GET method for addition
+      fetch(`/api/add?a=${values.a}&b=${values.b}`)
+        .then(res => res.json())
+        .then(data => {
+          document.getElementById("result").innerText = "Result: " + data.result;
+        })
+        .catch(error => {
+        document.getElementById("result").innerText = "Error performing addition.";
+      });
+    });
+
+    // SUBTRACT Operation
+    document.getElementById("subtractBtn").addEventListener("click", function () {
+      const values = getValues();
+      if (!values) return;
+
+      // Using GET method for subtraction
+      fetch(`/api/subtract?a=${values.a}&b=${values.b}`)
+        .then(res => res.json())
+        .then(data => {
+          document.getElementById("result").innerText = "Result: " + data.result;
+        })
+        .catch(error => {
+          document.getElementById("result").innerText = "Error performing subtraction.";
+        });
+    });
+
+    // MULTIPLY Operation
+    document.getElementById("multiplyBtn").addEventListener("click", function () {
+      const values = getValues();
+      if (!values) return;
+
+      // Using POST method for multiplication
+      fetch("/api/multiply", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          a: Number(values.a),
+          b: Number(values.b)
+        })
+      })
+      .then(res => res.json())
+      .then(data => {
+        document.getElementById("result").innerText = "Result: " + data.result;
+      })
+      .catch(error => {
+        document.getElementById("result").innerText = "Error performing multiplication.";
+      });
+    });
+
+    // DIVIDE Operation
+    document.getElementById("divideBtn").addEventListener("click", function () {
+      const values = getValues();
+      if (!values) return;
+
+      // Using POST method for division
+      fetch("/api/divide", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          a: Number(values.a),
+          b: Number(values.b)
+        })
+      })
+      .then(res => res.json())
+      .then(data => {
+        document.getElementById("result").innerText = "Result: " + data.result;
+      })
+      .catch(error => {
+        document.getElementById("result").innerText = "Error performing division.";
+      });
+    });
+
+  </script>
+
+</body>
+</html>
