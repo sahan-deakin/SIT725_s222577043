@@ -8,54 +8,7 @@ var port = process.env.PORT || 3001;
 app.use(express.json());
 app.use(express.static(path.join(__dirname, "public")));
 
-// ---------------- QUOTES ----------------
-
-let quotes = [
-  "The best way to predict the future is to invent it.",
-  "Life is 10% what happens to us and 90% how we react to it.",
-  "The only limit to our realization of tomorrow is our doubts of today.",
-  "Do not wait to strike till the iron is hot; but make it hot by striking."
-];
-
-// GET quote
-app.get("/api/quote", (req, res) => {
-  const randomIndex = Math.floor(Math.random() * quotes.length);
-  res.json({ quote: quotes[randomIndex] });
-});
-
-// POST quote
-app.post("/api/quote", (req, res) => {
-  const { quote } = req.body;
-
-  if (!quote || typeof quote !== "string") {
-    return res.status(400).json({ error: "Please provide a valid quote." });
-  }
-
-  quotes.push(quote);
-  res.json({ message: "Quote added successfully.", quotes });
-});
-
-// ---------------- CALCULATOR FUNCTIONS ----------------
-
-function add(a, b) {
-  return a + b;
-}
-
-function subtract(a, b) {
-  return a - b;
-}
-
-function multiply(a, b) {
-  return a * b;
-}
-
-function divide(a, b) {
-  return a / b;
-}
-
-// ---------------- CALCULATOR ROUTES ----------------
-
-// GET - Add
+// GET API - Add Operation
 app.get("/api/add", (req, res) => {
   const a = parseFloat(req.query.a);
   const b = parseFloat(req.query.b);
@@ -63,11 +16,11 @@ app.get("/api/add", (req, res) => {
   if (isNaN(a) || isNaN(b)) {
     return res.status(400).json({ error: "Invalid numbers" });
   }
-
-  res.json({ result: add(a, b) });
+  var calculation = a + b;
+  res.json({ result: calculation });
 });
 
-// GET - Subtract
+// GET API - Subtract Operation
 app.get("/api/subtract", (req, res) => {
   const a = parseFloat(req.query.a);
   const b = parseFloat(req.query.b);
@@ -76,10 +29,11 @@ app.get("/api/subtract", (req, res) => {
     return res.status(400).json({ error: "Invalid numbers" });
   }
 
-  res.json({ result: subtract(a, b) });
+  var calculation = a - b;
+  res.json({ result: calculation });
 });
 
-// POST - Multiply
+// POST API - Multiply Operation
 app.post("/api/multiply", (req, res) => {
   const { a, b } = req.body;
 
@@ -87,10 +41,11 @@ app.post("/api/multiply", (req, res) => {
     return res.status(400).json({ error: "Invalid numbers" });
   }
 
-  res.json({ result: multiply(a, b) });
+  var calculation = a * b;
+  res.json({ result: calculation });
 });
 
-// POST - Divide
+// POST API - Divide Operation
 app.post("/api/divide", (req, res) => {
   const { a, b } = req.body;
 
@@ -98,16 +53,13 @@ app.post("/api/divide", (req, res) => {
     return res.status(400).json({ error: "Invalid input or division by zero" });
   }
 
-  res.json({ result: divide(a, b) });
+  var calculation = a / b;
+  res.json({ result: calculation });
 });
-
-// ---------------- HEALTH ----------------
 
 app.get("/health", (req, res) => {
   res.send("Server is healthy!");
 });
-
-// ---------------- START ----------------
 
 app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}`);
