@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>My Book Shop</title>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+
+<body>
+
+<nav class="teal darken-2">
+  <div class="nav-wrapper container">
+    <a href="#" class="brand-logo">My Book Shop</a>
+    <ul class="right">
+      <li><a class="modal-trigger" href="#modal1">Add Book</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="container">
+  <h4 class="center">Explore Books</h4>
+  <div class="row" id="card-section"></div>
+</div>
+
+<!-- Modal -->
+<div id="modal1" class="modal">
+  <div class="modal-content">
+    <h5>Add New Book</h5>
+
+    <input id="title" placeholder="Title">
+    <input id="author" placeholder="Author">
+    <input id="category" placeholder="Category">
+    <input id="price" type="number" placeholder="Price">
+    <input id="image" placeholder="Image URL">
+  </div>
+
+  <div class="modal-footer">
+    <a href="#!" class="btn" id="saveBook">Save</a>
+  </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+<script src="js/scripts.js"></script>
+
+</body>
+</html>
