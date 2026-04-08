@@ -8,15 +8,20 @@ $(document).ready(function () {
       author: $("#author").val(),
       category: $("#category").val(),
       price: parseFloat($("#price").val()),
-      coverUrl: $("#image").val(),
+
+      // ✅ Always use default image
+      coverUrl: "images/sample.jpg",
+
       rating: 4.5
     };
 
     try {
       const response = await fetch("/api/books", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(book),
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(book)
       });
 
       const result = await response.json();
@@ -29,8 +34,10 @@ $(document).ready(function () {
 
     } catch (err) {
       console.error(err);
+      M.toast({ html: "Error adding book", classes: "red" });
     }
   });
+
 });
 
 // Fetch books
