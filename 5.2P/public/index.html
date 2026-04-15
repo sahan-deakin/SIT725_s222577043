@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Books Catalog</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+
+<body>
+
+    <header>Books Catalog</header>
+
+    <div class="container">
+        <h2>Available Books</h2>
+        <ul id="bookList"></ul>
+    </div>
+
+    <script>
+        async function loadBooks() {
+            const res = await fetch('/api/books');
+            const json = await res.json();
+
+            const list = document.getElementById('bookList');
+
+            json.data.forEach(book => {
+                const li = document.createElement('li');
+
+                li.innerHTML = `
+        <div class="title">${book.title}</div>
+        <div class="author">by ${book.author}</div>
+      `;
+
+                list.appendChild(li);
+            });
+        }
+
+        loadBooks();
+    </script>
+
+</body>
+
+</html>
