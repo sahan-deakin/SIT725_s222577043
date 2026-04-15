@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Books</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+<h1>Books Catalog</h1>
+
+<h3> Books Catelog developed by S222577043</h3>
+
+<button onclick="loadBooks()">Get All Books</button>
+
+<ul id="bookList"></ul>
+
+<div id="details"></div>
+
+<script>
+async function loadBooks() {
+  const res = await fetch('/api/books');
+  const json = await res.json();
+
+  const list = document.getElementById('bookList');
+  list.innerHTML = '';
+
+  json.data.forEach(book => {
+    const li = document.createElement('li');
+    li.textContent = `${book.title} - ${book.price.$numberDecimal || book.price} AUD`;
+
+    li.onclick = () => loadBookDetails(book.id);
+
+    list.appendChild(li);
+  });
+}
+
+async function loadBookDetails(id) {
+  const res = await fetch(`/api/books/${id}`);
+  const json = await res.json();
+
+  const book = json.data;
+
+  document.getElementById('details').innerHTML = `
+    <h3>${book.title}</h3>
+    <p>Author: ${book.author}</p>
+    <p>Year: ${book.year}</p>
+    <p>Genre: ${book.genre}</p>
+    <p>${book.summary}</p>
+    <p>Price: ${book.price.$numberDecimal || book.price} AUD</p>
+  `;
+}
+</script>
+
+</body>
+</html>
