@@ -3,7 +3,7 @@ const expect = chai.expect;
 
 const { calculateTotalBookPrice } = require('../utils/book-total-price-calculator');
 
-describe('Total Book Price Calculation', () => {
+describe('Total Book Price Calculation Test', () => {
 
   it('should calculate total price correctly', () => {
     const books = [{ price: 10 }, { price: 20 }];
