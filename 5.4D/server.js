@@ -27,11 +27,6 @@ const bookRoutes = require('./routes/books.routes');
 
 app.use('/api/books', bookRoutes);
 
-// integrity check (required)
-app.get('/api/integrity-check42', (_req, res) => {
-  res.sendStatus(204);
-});
-
 // root route
 app.get('/', (_req, res) => {
   res.send('Welcome to Books API');

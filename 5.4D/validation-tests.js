@@ -119,39 +119,194 @@ async function run() {
   const updatePath = (id) => `${API_BASE}/${id}`;
 
   //  BASE TESTS 
-  await test({ id: "T01", name: "Valid create", method: "POST", path: createPath, expected: 201, body: makeValidBook(uniqueId) });
-  await test({ id: "T02", name: "Duplicate ID", method: "POST", path: createPath, expected: 409, body: makeValidBook(uniqueId), tags: ["CREATE_FAIL"] });
-  await test({ id: "T03", name: "Immutable ID", method: "PUT", path: updatePath(uniqueId), expected: 400, body: { ...makeValidUpdate(), id: "b999" }, tags: ["UPDATE_FAIL","IMMUTABLE"] });
-  await test({ id: "T04", name: "Unknown CREATE", method: "POST", path: createPath, expected: 400, body: { ...makeValidBook(`b${Date.now()+1}`), hack: true }, tags: ["CREATE_FAIL","UNKNOWN_CREATE"] });
-  await test({ id: "T05", name: "Unknown UPDATE", method: "PUT", path: updatePath(uniqueId), expected: 400, body: { ...makeValidUpdate(), hack: true }, tags: ["UPDATE_FAIL","UNKNOWN_UPDATE"] });
+  await test({
+    id: "T01",
+    name: "Valid create",
+    method: "POST",
+    path: createPath,
+    expected: 201,
+    body: makeValidBook(uniqueId)
+  });
+
+  await test({
+    id: "T02",
+    name: "Duplicate ID",
+    method: "POST",
+    path: createPath,
+    expected: 409, body:
+      makeValidBook(uniqueId),
+    tags: ["CREATE_FAIL"]
+  });
+
+  await test({
+    id: "T03",
+    name: "Immutable ID",
+    method: "PUT",
+    path: updatePath(uniqueId),
+    expected: 400,
+    body: { ...makeValidUpdate(), id: "b999" },
+    tags: ["UPDATE_FAIL", "IMMUTABLE"]
+  });
+
+  await test({
+    id: "T04",
+    name: "Unknown CREATE",
+    method: "POST",
+    path: createPath,
+    expected: 400,
+    body: { ...makeValidBook(`b${Date.now() + 1}`), hack: true },
+    tags: ["CREATE_FAIL", "UNKNOWN_CREATE"]
+  });
+
+  await test({
+    id: "T05",
+    name: "Unknown UPDATE",
+    method: "PUT",
+    path: updatePath(uniqueId),
+    expected: 400,
+    body: { ...makeValidUpdate(), hack: true },
+    tags: ["UPDATE_FAIL", "UNKNOWN_UPDATE"]
+  });
 
   //  REQUIRED 
-  await test({ id: "T06", name: "Missing title", method: "POST", path: createPath, expected: 400, body: { ...makeValidBook("b100"), title: undefined }, tags: ["CREATE_FAIL","REQUIRED"] });
-  await test({ id: "T07", name: "Missing author", method: "POST", path: createPath, expected: 400, body: { ...makeValidBook("b101"), author: undefined }, tags: ["CREATE_FAIL","REQUIRED"] });
+  await test({
+    id: "T06",
+    name: "Missing title",
+    method: "POST", path: createPath, expected: 400, body: { ...makeValidBook("b100"), title: undefined }, tags: ["CREATE_FAIL", "REQUIRED"]
+  });
+  await test({
+    id: "T07",
+    name: "Missing author",
+    method: "POST",
+    path: createPath,
+    expected: 400,
+    body: { ...makeValidBook("b101"), author: undefined }, tags: ["CREATE_FAIL", "REQUIRED"]
+  });
 
   //  TYPE 
-  await test({ id: "T08", name: "Year wrong type", method: "POST", path: createPath, expected: 400, body: { ...makeValidBook("b102"), year: "abc" }, tags: ["CREATE_FAIL","TYPE"] });
-  await test({ id: "T09", name: "Price wrong type", method: "POST", path: createPath, expected: 400, body: { ...makeValidBook("b103"), price: "abc" }, tags: ["CREATE_FAIL","TYPE"] });
+  await test({
+    id: "T08",
+    name: "Year wrong type",
+    method: "POST",
+    path: createPath,
+    expected: 400,
+    body: { ...makeValidBook("b102"), year: "abc" },
+    tags: ["CREATE_FAIL", "TYPE"]
+  });
+
+  await test({
+    id: "T09",
+    name: "Price wrong type",
+    method: "POST",
+    path: createPath,
+    expected: 400,
+    body: { ...makeValidBook("b103"), price: "abc" },
+    tags: ["CREATE_FAIL", "TYPE"]
+  });
 
   //  BOUNDARY 
-  await test({ id: "T10", name: "Year too small", method: "POST", path: createPath, expected: 400, body: { ...makeValidBook("b104"), year: 1000 }, tags: ["CREATE_FAIL","BOUNDARY"] });
-  await test({ id: "T11", name: "Year too large", method: "POST", path: createPath, expected: 400, body: { ...makeValidBook("b105"), year: 3000 }, tags: ["CREATE_FAIL","BOUNDARY","TEMPORAL"] });
+  await test({
+    id: "T10",
+    name: "Year too small",
+    method: "POST",
+    path: createPath,
+    expected: 400,
+    body: { ...makeValidBook("b104"), year: 1000 },
+    tags: ["CREATE_FAIL", "BOUNDARY"]
+  });
+  await test({
+    id: "T11",
+    name: "Year too large",
+    method: "POST",
+    path: createPath,
+    expected: 400,
+    body: { ...makeValidBook("b105"), year: 3000 },
+    tags: ["CREATE_FAIL", "BOUNDARY", "TEMPORAL"]
+  });
 
   //  LENGTH 
-  await test({ id: "T12", name: "Title too short", method: "POST", path: createPath, expected: 400, body: { ...makeValidBook("b106"), title: "A" }, tags: ["CREATE_FAIL","LENGTH"] });
-  await test({ id: "T13", name: "Summary too short", method: "POST", path: createPath, expected: 400, body: { ...makeValidBook("b107"), summary: "short" }, tags: ["CREATE_FAIL","LENGTH"] });
+  await test({
+    id: "T12",
+    name: "Title too short",
+    method: "POST",
+    path: createPath,
+    expected: 400,
+    body: { ...makeValidBook("b106"), title: "A" },
+    tags: ["CREATE_FAIL", "LENGTH"]
+  });
+
+  await test({
+    id: "T13",
+    name: "Summary too short",
+    method: "POST",
+    path: createPath,
+    expected: 400,
+    body: { ...makeValidBook("b107"), summary: "short" },
+    tags: ["CREATE_FAIL", "LENGTH"]
+  });
 
   //  UPDATE FAIL 
-  await test({ id: "T14", name: "Update invalid year", method: "PUT", path: updatePath(uniqueId), expected: 400, body: { ...makeValidUpdate(), year: 3000 }, tags: ["UPDATE_FAIL","BOUNDARY"] });
+  await test({
+    id: "T14",
+    name: "Update invalid year",
+    method: "PUT",
+    path: updatePath(uniqueId),
+    expected: 400,
+    body: { ...makeValidUpdate(), year: 3000 },
+    tags: ["UPDATE_FAIL", "BOUNDARY"]
+  });
 
   //  NOT FOUND 
-  await test({ id: "T15", name: "Update non-existent", method: "PUT", path: updatePath("b999999"), expected: 404, body: makeValidUpdate(), tags: ["UPDATE_FAIL"] });
+  await test({
+    id: "T15",
+    name: "Update non-existent",
+    method: "PUT",
+    path: updatePath("b999999"),
+    expected: 404,
+    body: makeValidUpdate(),
+    tags: ["UPDATE_FAIL"]
+  });
 
   //  VALID UPDATE 
-  await test({ id: "T16", name: "Valid update", method: "PUT", path: updatePath(uniqueId), expected: 200, body: makeValidUpdate() });
+  await test({
+    id: "T16",
+    name: "Valid update",
+    method: "PUT",
+    path: updatePath(uniqueId),
+    expected: 200,
+    body: makeValidUpdate()
+  });
 
   //  MORE UNKNOWN 
-  await test({ id: "T17", name: "Extra field update", method: "PUT", path: updatePath(uniqueId), expected: 400, body: { ...makeValidUpdate(), extra: "bad" }, tags: ["UPDATE_FAIL","UNKNOWN_UPDATE"] });
+  await test({
+    id: "T17",
+    name: "Extra field update",
+    method: "PUT",
+    path: updatePath(uniqueId),
+    expected: 400,
+    body: { ...makeValidUpdate(), extra: "bad" },
+    tags: ["UPDATE_FAIL", "UNKNOWN_UPDATE"]
+  });
+
+  await test({
+    id: "T18",
+    name: "Empty title",
+    method: "POST",
+    path: createPath,
+    expected: 400,
+    body: { ...makeValidBook("b108"), title: "" },
+    tags: ["CREATE_FAIL", "REQUIRED", "LENGTH"]
+  });
+
+  await test({
+    id: "T19",
+    name: "Negative price",
+    method: "POST",
+    path: createPath,
+    expected: 400,
+    body: { ...makeValidBook("b109"), price: "-5.00" },
+    tags: ["CREATE_FAIL", "BOUNDARY"]
+  });
 
   const pass = logSummary();
   logCoverage();

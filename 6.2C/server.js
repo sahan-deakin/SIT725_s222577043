@@ -13,9 +13,6 @@ app.use(express.json());
 const bookRoutes = require('./routes/books.routes');
 app.use('/api/books', bookRoutes);
 
-// integrity route
-app.get('/api/integrity-check42', (_req, res) => res.sendStatus(204));
-
 // MongoDB connection
 mongoose.connect('mongodb://127.0.0.1:27017/booksDB');
 
