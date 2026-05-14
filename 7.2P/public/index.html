@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Session Feedback</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 500px;
+            margin: 60px auto;
+            padding: 0 20px;
+            background: #f0f0f0;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        .box {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .stars span {
+            font-size: 30px;
+            cursor: pointer;
+            color: #ccc;
+        }
+
+        .stars span.selected {
+            color: orange;
+        }
+
+        textarea {
+            width: 100%;
+            padding: 8px;
+            margin-top: 10px;
+            font-size: 14px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        button {
+            margin-top: 10px;
+            padding: 10px 20px;
+            background: #5c6bc0;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 15px;
+        }
+
+        button:hover {
+            background: #3949ab;
+        }
+
+        .feedback-item {
+            border-bottom: 1px solid #eee;
+            padding: 8px 0;
+            font-size: 14px;
+        }
+
+        .grey {
+            color: #999;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Session Feedback</h1>
+
+    <div style="text-align:center; margin-bottom:20px;">
+        <button onclick="showView('student')">Student</button>
+        <button onclick="showView('teacher')">Teacher</button>
+    </div>
+
+    <!-- Student View -->
+    <div id="student-view">
+        <div class="box">
+            <h3>Rate the session</h3>
+            <div class="stars">
+                <span onclick="setRating(1)">★</span>
+                <span onclick="setRating(2)">★</span>
+                <span onclick="setRating(3)">★</span>
+                <span onclick="setRating(4)">★</span>
+                <span onclick="setRating(5)">★</span>
+            </div>
+            <textarea id="comment" rows="3" placeholder="Any comments? (optional)"></textarea>
+            <br>
+            <button onclick="submitFeedback()">Submit</button>
+            <p id="thanks" style="display:none; color:green;">Thanks for your feedback!</p>
+        </div>
+    </div>
+
+    <!-- Teacher View -->
+    <div id="teacher-view" style="display:none;">
+        <div class="box">
+            <p>Total Responses: <strong id="total">0</strong></p>
+            <p>Average Rating: <strong id="avg">-</strong> / 5</p>
+            <button onclick="resetFeedback()">Reset</button>
+        </div>
+        <div class="box">
+            <h3>Responses</h3>
+            <div id="feedback-list"><p class="grey">No feedback yet.</p></div>
+        </div>
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="app.js"></script>
+
+</body>
+</html>
