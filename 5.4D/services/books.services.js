@@ -16,7 +16,7 @@ async function getBookById(id) {
   return Book.findOne({ id }).lean({ getters: true });
 }
 
-// CREATE (SAFE WRITE)
+// CREATE BOOK
 async function createBook(data) {
 
   if (!validateFields(data)) {
@@ -36,7 +36,7 @@ async function createBook(data) {
   }
 }
 
-// UPDATE (SAFE WRITE)
+// UPDATE BOOK
 async function updateBook(id, data) {
 
   if (!validateFields(data)) {

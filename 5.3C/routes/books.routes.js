@@ -9,4 +9,4 @@ router.get('/', Controllers.booksController.getAllBooks);
 // Route to get a book by its ID
 router.get('/:id', Controllers.booksController.getBookById);
 
-module.exports = router; 
+module.exports = router;

@@ -308,6 +308,16 @@ async function run() {
     tags: ["CREATE_FAIL", "BOUNDARY"]
   });
 
+  await test({
+    id: "T21",
+    name: "Year must be integer",
+    method: "POST",
+    path: createPath,
+    expected: 400,
+    body: { ...makeValidBook("b111"), year: "2020.5" },
+    tags: ["CREATE_FAIL", "TYPE"]
+  });
+
   const pass = logSummary();
   logCoverage();
 

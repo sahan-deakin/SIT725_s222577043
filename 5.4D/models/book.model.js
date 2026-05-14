@@ -5,7 +5,7 @@ const BookSchema = new mongoose.Schema({
     type: String,
     required: true,
     unique: true,
-    match: /^b\d+$/   // e.g. b1, b2
+    match: /^b\d+$/   // b1, b2, b100 etc
   },
   title: {
     type: String,
@@ -25,7 +25,11 @@ const BookSchema = new mongoose.Schema({
     type: Number,
     required: true,
     min: 1500,
-    max: new Date().getFullYear()
+    max: new Date().getFullYear(),
+    validate: { // Custom validator to ensure year is an integer
+      validator: Number.isInteger,
+      message: "Year must be an integer"
+    }
   },
   genre: {
     type: String,
@@ -40,7 +44,13 @@ const BookSchema = new mongoose.Schema({
   },
   price: {
     type: mongoose.Decimal128,
-    required: true,
+    required: true, 
+    validate: { // Custom validator to ensure price is not negative
+      validator: function (v) {
+        return parseFloat(v.toString()) >= 0;
+      },
+      message: "Price cannot be negative"
+    },
     get: v => v?.toString()
   }
 }, {

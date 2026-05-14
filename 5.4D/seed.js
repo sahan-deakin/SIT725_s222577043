@@ -10,7 +10,8 @@ const data = [
         author: "Liu Cixin",
         year: 2008,
         genre: "Science Fiction",
-        summary: "Alien civilization contact.",
+        summary:
+            "The Three-Body Problem is the first novel in the Remembrance of Earth's Past trilogy. The series portrays a fictional past, present, and future wherein Earth encounters an alien civilization from a nearby system of three Sun-like stars orbiting one another, a representative example of the three-body problem in orbital mechanics.",
         price: "25.50"
     },
     {
@@ -19,7 +20,8 @@ const data = [
         author: "Charlotte Brontë",
         year: 1847,
         genre: "Classic",
-        summary: "Governess story.",
+        summary:
+            "An orphaned governess confronts class, morality, and love at Thornfield Hall, uncovering Mr. Rochester’s secret and forging her own independence.",
         price: "22.00"
     },
     {
@@ -28,7 +30,8 @@ const data = [
         author: "Jane Austen",
         year: 1813,
         genre: "Classic",
-        summary: "Love and society.",
+        summary:
+            "Elizabeth Bennet and Mr. Darcy navigate pride, misjudgement, and social expectations in a sharp study of manners and marriage.",
         price: "20.00"
     },
     {
@@ -37,7 +40,8 @@ const data = [
         author: "Michael Ondaatje",
         year: 1992,
         genre: "Historical Fiction",
-        summary: "WWII story.",
+        summary:
+            "In a ruined Italian villa at the end of WWII, four strangers with intersecting pasts confront memory, identity, and loss.",
         price: "24.00"
     },
     {
@@ -46,7 +50,8 @@ const data = [
         author: "Terry Pratchett",
         year: 1992,
         genre: "Fantasy",
-        summary: "Discworld story.",
+        summary:
+            "In Omnia, the god Om returns as a tortoise, and novice Brutha must confront dogma, empire, and the nature of belief.",
         price: "21.50"
     }
 ];
